@@ -57,12 +57,11 @@ namespace MarsFramework.Pages
         //User welcome link
         [FindsBy(How = How.XPath, Using = "//div[@class ='ui compact menu']//span[@class = 'item ui dropdown link '][contains(text(),'Hi')]")]
         private IWebElement UserWelcomeLink { get; set; }
-
-
         #endregion
 
         internal void LoginSteps()
         {
+            //Retrieving data from excel
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SignIn");
             String BaseUrl = GlobalDefinitions.ExcelLib.ReadData(3, "Url");
             String Username = GlobalDefinitions.ExcelLib.ReadData(3, "Username");
@@ -70,6 +69,7 @@ namespace MarsFramework.Pages
 
             GlobalDefinitions.driver.Navigate().GoToUrl(BaseUrl);
 
+            //Entering account details
             SignInLink.Click();
             Email.SendKeys(Username);
             Password.SendKeys(Pwd);
@@ -79,11 +79,26 @@ namespace MarsFramework.Pages
 
         internal void SignOutSteps()
         {
+            GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//button[text()='Sign Out']", 6);
+            Thread.Sleep(2000);
             SignOutBtn.Click();
 
         }
 
-        //
+        internal void NavigateToChangePasswordPage()
+        {
+            //Moving curser to Userwelcom link
+            Actions actions = new Actions(GlobalDefinitions.driver);
+            Thread.Sleep(4000);
+            GenericWait.ElementIsVisible(GlobalDefinitions.driver, "Xpath", "//span[contains(@class,'item ui dropdown link')]", 3);
+            actions.MoveToElement(UserWelcomeLink).Build().Perform();
+
+            //Clicking on change password link
+            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "LinkText", "Change Password", 7);
+            Thread.Sleep(2000);
+            ChangePasswordLink.Click();
+        }
+        
         internal void ChangePassword()
         {
             //Retrieving new password, confirm password and current passowrd value from excel
@@ -91,17 +106,6 @@ namespace MarsFramework.Pages
             String CurrentPasswordValue = GlobalDefinitions.ExcelLib.ReadData(2, "Password");
             String NewPasswordValue = GlobalDefinitions.ExcelLib.ReadData(2, "NewPassword");
             String ConfirmPasswordValue = GlobalDefinitions.ExcelLib.ReadData(2, "ConfirmPassword");
-
-            //Moving curser to Userwelcom link
-            Actions actions = new Actions(GlobalDefinitions.driver);
-            Thread.Sleep(4000);
-            GenericWait.ElementIsVisible(GlobalDefinitions.driver, "Xpath", "//span[contains(@class,'item ui dropdown link')]", 3);
-            actions.MoveToElement(UserWelcomeLink).Build().Perform();
-
-            //Clicking on the change password link
-            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "LinkText", "Change Password", 3);
-            Thread.Sleep(2000);
-            ChangePasswordLink.Click();
 
             //Entering the current password
             CurrentPasswordTextbox.SendKeys(CurrentPasswordValue);
@@ -112,8 +116,10 @@ namespace MarsFramework.Pages
             //Entering the confirm password
             ConfirmPasswordTextbox.SendKeys(ConfirmPasswordValue);
 
+            Thread.Sleep(2000);
             //clicking on the save button
             SaveButton.Click();
+            Thread.Sleep(3000);
 
             string img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Change Password");
 
@@ -122,19 +128,26 @@ namespace MarsFramework.Pages
 
         }
 
+        internal void SaveUpdatedPasswordInfo()
+        {
+            //clicking on the save button
+            SaveButton.Click();
+            Thread.Sleep(3000);
+
+            //Validating message
+            GlobalDefinitions.MessageValidation("Password changed");
+        }
+
         //Validate password has been changed 
         public void ValidateChangedPassword()
         {
             try
             {
-
+                //Populating data from excel
                 GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SignIn");
-                GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//button[text()='Sign Out']", 6);
-                //Click on the signout button
-                SignOutBtn.Click();
 
-                GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//a[contains(text(),'Sign')]", 6);
                 //Clicking on SignIn link
+                GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//a[contains(text(),'Sign')]", 6);
                 SignInLink.Click();
 
                 GenericWait.ElementIsVisible(GlobalDefinitions.driver, "Name", "email", 6);

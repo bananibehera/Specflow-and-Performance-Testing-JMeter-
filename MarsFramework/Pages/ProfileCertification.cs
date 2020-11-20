@@ -13,10 +13,14 @@ using static MarsFramework.Global.GlobalDefinitions;
 
 namespace MarsFramework.Pages
 {
-    class ProfileCertifcation
+    class ProfileCertification
     {
+
+        //Clicking on Profile tab
+        private static IWebElement profileTab => GlobalDefinitions.driver.FindElement(By.LinkText("Profile"));
+
         //Clicking on Certification tab
-        private static IWebElement certificationTab => GlobalDefinitions.driver.FindElement(By.XPath("//a[@class='item'][contains(.,'Certifications')]"));
+        private static IWebElement certificationTab => GlobalDefinitions.driver.FindElement(By.XPath("//a[contains(text(),'Certifications')]"));
         //Clicking on Add New Button
         private static IWebElement addNewButton_Certification => GlobalDefinitions.driver.FindElement(By.XPath("//th[contains(text(),'Certificate')]/..//div[text() = 'Add New']"));
         //Entering Certification name
@@ -41,10 +45,18 @@ namespace MarsFramework.Pages
         //Retrieving the Year value to update from excel
         //private string yearToUpdate => GlobalDefinitions.ExcelLib.ReadData(2, "YearToUpdate");
 
-        public void NavigateToCertificationPage()
+
+        public void NavigateToProfileTab()
+        {
+            // Clicking on the profile tab
+            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "LinkText", "Profile", 5);
+            profileTab.Click();
+        }
+        public void NavigateToCertificationTab()
         {
             // Clicking on the Education tab
-            GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//a[@class='item'][contains(.,'Certifications')]", 3);
+            GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//a[contains(text(),'Certifications')]", 5);
+
             certificationTab.Click();
         }
         public void AddCertification()
@@ -75,8 +87,6 @@ namespace MarsFramework.Pages
                 Thread.Sleep(3000);
                 AddButton_Certificate.Click();
                 string img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Certification added");
-
-
 
             }
 
@@ -183,14 +193,15 @@ namespace MarsFramework.Pages
             //Reading from the excel about the certification details to delete 
             String CertificationNameToDelete = GlobalDefinitions.ExcelLib.ReadData(2, "CertificationNameToDelete");
             String CertifiedFromToDelete = GlobalDefinitions.ExcelLib.ReadData(2, "CertifiedFromToDelete");
-            //String yearToDelete = GlobalDefinitions.ExcelLib.ReadData(2, "YearToDelete");
+            
 
             for (int j = 1; j <= certificationRecords.Count; j++)
             {
                 //String countryValue = GlobalDefinitions.driver.FindElement(By.XPath(educationTableBody + "[" + j + "]" + "//tr//td[1]")).Text;
                 String certificateNameValue = GlobalDefinitions.driver.FindElement(By.XPath(certificationTableBody + "[" + j + "]" + "//tr//td[1]")).Text;
                 String certificationFromValue = GlobalDefinitions.driver.FindElement(By.XPath(certificationTableBody + "[" + j + "]" + "//tr//td[2]")).Text;
-                //String yearValue = GlobalDefinitions.driver.FindElement(By.XPath(certificationTableBody + "[" + j + "]" + "//tr//td[3]")).Text;
+                Thread.Sleep(2000);
+
                 try
                 {
                     if (certificateNameValue == CertificationNameToDelete && certificationFromValue == CertifiedFromToDelete)
@@ -219,22 +230,25 @@ namespace MarsFramework.Pages
 
         public void ValidateDeletedCertification()
         {
+            
             //Searching through the list of certification details available under the certification tab 
             SearchAddedCertification();
             try
             {
                 //Verifying the deleted certification details is not available and deleted from the list
-                Assert.AreEqual(NumberOfCertificationDetailsToAdd - 1, NumberOfCertificationDetailsFound, "Certification deletion successful");
-                Base.test.Log(LogStatus.Pass, "Certification details deleted from the list");
+                //Assert.AreEqual(NumberOfCertificationDetailsToAdd - 1, NumberOfCertificationDetailsFound);
+                Assert.That(NumberOfCertificationDetailsToAdd - 1, Is.EqualTo(NumberOfCertificationDetailsFound));
 
             }
+             
 
             catch (Exception e)
             {
-                Assert.AreNotEqual(NumberOfCertificationDetailsToAdd - 1, NumberOfCertificationDetailsFound, "Certification deletion unsuccesful");
-
+                Assert.Fail("Fail to delete certification", e.Message);
                 Base.test.Log(LogStatus.Fail, "Certification deleted failed to delete from the list", e.Message);
             }
+
+            Base.test.Log(LogStatus.Pass, "Certification details deleted from the list");
 
         }
     }

@@ -6,9 +6,9 @@ using System;
 using RelevantCodes.ExtentReports;
 using OpenQA.Selenium;
 
-namespace MarsFramework
-{
-    public class Program
+/*namespace MarsFramework
+{*/
+    /*public class Program
     {
         [TestFixture]
         [Category("Sprint1")]
@@ -191,3 +191,4 @@ namespace MarsFramework
         }
     }
 }
+*/

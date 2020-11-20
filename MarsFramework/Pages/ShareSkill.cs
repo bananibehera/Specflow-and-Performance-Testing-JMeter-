@@ -154,8 +154,23 @@ namespace MarsFramework.Pages
             //Click ShareSkill Button
             ShareSkillButton.Click();
         }
+
+        internal void ValidateNavigateToServiceListingPage()
+        {
+            var expectedURL = "http://localhost:5000/Home/ServiceListing";
+            var currentURL = GlobalDefinitions.driver.Url;
+            Assert.AreEqual(expectedURL, currentURL);
+            Base.test.Log(LogStatus.Pass, "Page successfully navigate to service listing page");
+        }
         
-         
+        internal void ClickOnSaveButton()
+        {
+            //Clicking on Save button
+            Save.Click();
+            SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Share skill added");
+
+        }
+
         internal void EnterShareSkill()
         {
            
@@ -250,12 +265,7 @@ namespace MarsFramework.Pages
             HelperCallingMethods.SelectingRadiobutton("//form/div[10]/div[@class='twelve wide column']/div/div[@class = 'field']", "isActive", GlobalDefinitions.ExcelLib.ReadData(2, "Active"));
             //Validating Active radio button selection
             GlobalDefinitions.RadiobuttonValidation("Active", "//form/div[10]/div[@class='twelve wide column']/div/div[@class = 'field']", "isActive", GlobalDefinitions.ExcelLib.ReadData(2, "Active"));
-            
-            //Clicking Save button
-            Save.Click();
 
-            string img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Share skill added"); 
-         
         }
 
         internal void AddShareSkill()
@@ -306,7 +316,7 @@ namespace MarsFramework.Pages
             //Entering the updated "Title"
             Title.SendKeys(GlobalDefinitions.ExcelLib.ReadData(4, "Title"));
             //Validating Title
-            GlobalDefinitions.TextDataFieldValidation("Title", GlobalDefinitions.ExcelLib.ReadData(2, "Title"), Title.GetAttribute("value"));
+            GlobalDefinitions.TextDataFieldValidation("Title", GlobalDefinitions.ExcelLib.ReadData(4, "Title"), Title.GetAttribute("value"));
 
             //Clearing the "Description"
             Description.Clear();

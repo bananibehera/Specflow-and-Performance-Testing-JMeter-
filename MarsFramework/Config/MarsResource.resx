@@ -134,12 +134,15 @@
   <data name="ExcelPath_ProfileDetail" xml:space="preserve">
     <value>C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\ExcelData\Data.xlsx</value>
   </data>
+  <data name="ExcelPath_SearchSkill" xml:space="preserve">
+    <value>C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\ExcelData\TestDataSearchSkill.xlsx</value>
+  </data>
   <data name="IsLogin" xml:space="preserve">
     <value>true</value>
     <comment>If true Login, else Register</comment>
   </data>
   <data name="ReportPath" xml:space="preserve">
-    <value>C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\TestReports\Report\TestExtentReport.html</value>
+    <value>C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\TestReports\Report\ReportFile.html</value>
   </data>
   <data name="ReportXMLPath" xml:space="preserve">
     <value>C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\TestReports\ReportXml</value>

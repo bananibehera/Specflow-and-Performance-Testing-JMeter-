@@ -106,6 +106,15 @@ namespace MarsFramework.Config {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\ExcelData\TestDataSearchSkill.xlsx.
+        /// </summary>
+        internal static string ExcelPath_SearchSkill {
+            get {
+                return ResourceManager.GetString("ExcelPath_SearchSkill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to true.
         /// </summary>
         internal static string IsLogin {
@@ -115,7 +124,7 @@ namespace MarsFramework.Config {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\TestReports\Report\TestExtentReport.html.
+        ///   Looks up a localized string similar to C:\Priyabrata\Ruby\Industry Connect\MVPTask\Task3\marsframework-master\MarsFramework\TestReports\Report\ReportFile.html.
         /// </summary>
         internal static string ReportPath {
             get {

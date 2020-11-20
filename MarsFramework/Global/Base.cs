@@ -5,10 +5,12 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using RelevantCodes.ExtentReports;
 using System;
+using TechTalk.SpecFlow;
 using static MarsFramework.Global.GlobalDefinitions;
 
 namespace MarsFramework.Global
 {
+    [Binding]
     class Base
     {
         #region To access Path from resource file
@@ -17,10 +19,11 @@ namespace MarsFramework.Global
         public static String ExcelPath = MarsResource.ExcelPath_Login;
         public static String ExcelPathAddShareSkill = MarsResource.ExcelPath_AddSkills;
         public static string ExcelPathManageShareSkill = MarsResource.ExcelPath_ManageSkills;
+        public static string ExcelPathSearchSkill = MarsResource.ExcelPath_SearchSkill;
         public static string ExcelPathProfileDetail = MarsResource.ExcelPath_ProfileDetail;
         public static string ScreenshotPath = MarsResource.ScreenShotPath;
         public static string ReportPath = MarsResource.ReportPath;
-         
+
         #endregion
 
         #region reports
@@ -29,10 +32,12 @@ namespace MarsFramework.Global
         #endregion
 
         #region setup and tear down
-        [OneTimeSetUp]
-        public void Inititalize()
+        //[OneTimeSetUp]
+        //[BeforeScenario]
+        [BeforeTestRun]
+        public static void Inititalize()
         {
-            
+
             // advisasble to read this documentation before proceeding http://extentreports.relevantcodes.com/net/
             switch (Browser)
             {
@@ -68,8 +73,10 @@ namespace MarsFramework.Global
         }
 
 
-        [OneTimeTearDown]
-        public void TearDown()
+        //[OneTimeTearDown]
+        // [AfterScenario]
+        [AfterTestRun]
+        public static void TearDown()
         {
             // Screenshot
             

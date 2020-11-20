@@ -24,6 +24,11 @@ namespace MarsFramework.Pages
         }
 
         #region Initializing web elements
+
+        //Navigating to Profile detail page
+        [FindsBy(How = How.LinkText, Using = "Profile")]
+        private IWebElement ProfileTab { get; set; }
+
         //Navigating to Skills tab
         [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Skills')]")]
         private IWebElement SkillsTab { get; set; }
@@ -61,6 +66,14 @@ namespace MarsFramework.Pages
         int NumberOfSkillsToAdd => Int32.Parse(GlobalDefinitions.ExcelLib.ReadData(2, "NumberOfSkillsToAdd"));
         #endregion
 
+
+        public void NavigateToProfileTab()
+        {
+            // Clicking on the profile tab
+            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "LinkText", "Profile", 5);
+            ProfileTab.Click();
+        }
+
         public void NavigateToSkillsTab()
         {
             GenericWait.ElementIsClickable(GlobalDefinitions.driver, "XPath", "//a[contains(text(),'Skills')]", 2);
@@ -80,6 +93,7 @@ namespace MarsFramework.Pages
                 //Clicking the Add New button
                 GenericWait.ElementIsClickable(GlobalDefinitions.driver, "XPath", "//th[contains(text(),'Skill')]/..//div[text()='Add New']", 4);
                 addNewSkillsButton.Click();
+                Thread.Sleep(2000);
 
                 //Entering the skills data into the skill textbox
                 GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//input[@placeholder='Add Skill']", 2);
@@ -132,7 +146,7 @@ namespace MarsFramework.Pages
 
             catch (Exception e)
             {
-                Assert.AreNotEqual(NumberOfSkillsToAdd, NumberOfSkillsFound,"Added skills not found in the list");
+                Assert.Fail("Skill added not found",e.Message);
                 Base.test.Log(LogStatus.Fail, "The skill added is not found in the list", e.Message);
             }
 
@@ -156,6 +170,7 @@ namespace MarsFramework.Pages
                     //Clicking edit button of the skill needed to update
                     GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", SkillsTableBody + "[" + j + "]" +"//tr[1]//td[3]//span[1]//i[1]", 4);
                     GlobalDefinitions.driver.FindElement(By.XPath(SkillsTableBody + "[" + j + "]"+ "//tr[1]//td[3]//span[1]//i[1]")).Click();
+                    Thread.Sleep(2000);
 
                     //Selecting the updated skill level
                     SelectElement chooseLanguageLevel = new SelectElement(SkillsLevelDropdown);
@@ -220,7 +235,7 @@ namespace MarsFramework.Pages
                     {
                         GenericWait.ElementIsClickable(GlobalDefinitions.driver, "XPath", SkillsTableBody + "[" + j + "]" + "/tr[1]/td[3]/span[2]/i[1]", 5);
                         GlobalDefinitions.driver.FindElement(By.XPath(SkillsTableBody + "[" + j + "]" + "/tr[1]/td[3]/span[2]/i[1]")).Click();
-                        Thread.Sleep(2000);
+                        //Thread.Sleep(2000);
                         GenericWait.ElementIsVisible(GlobalDefinitions.driver, "ClassName", "ns-box-inner", 4);
                         String DeleteAlertPopupText = GlobalDefinitions.driver.FindElement(By.ClassName("ns-box-inner")).Text;
                        

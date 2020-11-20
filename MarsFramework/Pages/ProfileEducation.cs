@@ -16,8 +16,11 @@ namespace MarsFramework.Pages
     class ProfileEducation
     {
         #region Initializing web elements
+        //Clicking on Profile tab
+        private static IWebElement profileTab => GlobalDefinitions.driver.FindElement(By.LinkText("Profile"));
+
         //Clicking on Education tab
-        private static IWebElement educationTab => GlobalDefinitions.driver.FindElement(By.XPath("//a[@class='item'][contains(.,'Education')]"));
+        private static IWebElement educationTab => GlobalDefinitions.driver.FindElement(By.XPath("//a[contains(text(),'Education')]"));
         //Clicking on Add New Button
         private static IWebElement addNewButton_Education => GlobalDefinitions.driver.FindElement(By.XPath("//th[contains(text(),'Degree')]/..//div[text() = 'Add New']"));  
         //Entering College/University name
@@ -49,10 +52,17 @@ namespace MarsFramework.Pages
         private string yearToUpdate => GlobalDefinitions.ExcelLib.ReadData(2, "YearToUpdate");
         #endregion
 
+
+        public void NavigateToProfileTab()
+        {
+            // Clicking on the profile tab
+            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "LinkText", "Profile", 9);
+            profileTab.Click();
+        }
         public void NavigateToEducationPage()
         {
             // Clicking on the Education tab
-            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "XPath", "//a[@class='item'][contains(.,'Education')]", 3);
+            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "XPath", "//a[contains(text(),'Education')]", 3);
             educationTab.Click();
         }
         public void AddEducation()
@@ -63,6 +73,8 @@ namespace MarsFramework.Pages
 
                 //Clicking the addNew button
                 addNewButton_Education.Click();
+
+                Thread.Sleep(2000);
 
                 //Entering the College/University name
                 collegeNameTextbox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(i + 1, "College/University Name"));
@@ -263,6 +275,7 @@ namespace MarsFramework.Pages
 
             catch (Exception e)
             {
+                Assert.Fail("Failed to delete education detail",e.Message);
                 Base.test.Log(LogStatus.Fail, "Education deleted failed to delete from the list", e.Message);
             }
 

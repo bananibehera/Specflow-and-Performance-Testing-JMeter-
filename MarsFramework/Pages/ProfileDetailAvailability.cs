@@ -46,7 +46,7 @@ namespace MarsFramework.Pages
         {
 
             GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//strong[text()='Availability']/../..//*[@class='right floated outline small write icon']", 5);
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             string AvailabilityTypeValue = GlobalDefinitions.ExcelLib.ReadData(2, "Availability Type");
             if (AvailabilityTypeValue == "Full Time")
             {
@@ -57,7 +57,7 @@ namespace MarsFramework.Pages
              
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
             else if (AvailabilityTypeValue == "Part Time")
             {
@@ -67,7 +67,7 @@ namespace MarsFramework.Pages
 
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
         }
         public void ValidateAvailabilityType()
@@ -99,7 +99,7 @@ namespace MarsFramework.Pages
 
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
             else if (AvailabilityHourValue == "More than 30hours a week")
             {
@@ -110,7 +110,7 @@ namespace MarsFramework.Pages
 
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
 
             else if (AvailabilityHourValue == "As needed")
@@ -122,7 +122,7 @@ namespace MarsFramework.Pages
 
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
         }
 
@@ -157,7 +157,7 @@ namespace MarsFramework.Pages
 
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
             else if (AvailabilityTargetValue == "More than $1000 per month")
             {
@@ -168,7 +168,7 @@ namespace MarsFramework.Pages
 
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
 
             else if (AvailabilityTargetValue == "Between $500 and $1000 per month")
@@ -180,7 +180,7 @@ namespace MarsFramework.Pages
 
                 //Validate message
                 GlobalDefinitions.MessageValidation("Availability updated");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
             }
         }
 

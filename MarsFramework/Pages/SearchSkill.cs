@@ -67,6 +67,7 @@ namespace MarsFramework.Pages
         //Entering the skill in search skill textbox and searching
         public void EnterSkillIntoSearchBox(string SearchTerm)
         {
+            Thread.Sleep(3000);
             GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//input[contains(@placeholder,'Search skills')][1]", 5);
             SearchSkillsTextbox.SendKeys(SearchTerm + "\n");
 
@@ -74,7 +75,7 @@ namespace MarsFramework.Pages
 
          public void EnterSkillIntoFilterSearchBox(string SearchTerm)
          {
-             Thread.Sleep(2000);
+             Thread.Sleep(3000);
              GenericWait.ElementIsVisible(GlobalDefinitions.driver, "XPath", "//section[@class='search-results']/descendant::div[@class='four wide column']/descendant::input[@placeholder='Search skills']", 5);
              FilterSearchSkillsTextbox.SendKeys(SearchTerm + "\n");
 
@@ -117,7 +118,7 @@ namespace MarsFramework.Pages
 
         /* 
          * Verfiy Skills are displayed based on the search text into search box
-         * Checking with first Page, as the most relevant result should be displayed on first page of the search result page
+         * Checking with the first page which has the most relevant result 
          */
         public void VerifySearchedSkill(string skill)
         {
@@ -169,7 +170,7 @@ namespace MarsFramework.Pages
                 {
                     Thread.Sleep(4000);
                     categoryElement.Click();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(3000);
                     string img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Category successfully clicked");
                     break;
                 }
@@ -188,7 +189,7 @@ namespace MarsFramework.Pages
                 Thread.Sleep(2000);
                 if (subCategoryName.ToLower() == SubCategory.ToLower())
                 {
-                    Thread.Sleep(2000);
+                    Thread.Sleep(3000);
                     subCategoryElement.Click();
                     Thread.Sleep(3000);
                     string img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Subcategory successfully clicked");
@@ -202,6 +203,7 @@ namespace MarsFramework.Pages
             bool activeCategory = false;
             bool activeSubCategory = false;
 
+            Thread.Sleep(2000);
             //Verifying the category and subcategory selection
             if (skillResult.Displayed && skillResult.Enabled)
                 if (skillResult.Displayed && skillResult.Enabled && Categories.Count != 0)
@@ -269,9 +271,6 @@ namespace MarsFramework.Pages
                     }
 
 
-                
-                    
-
                 }
 
         }
@@ -333,11 +332,8 @@ namespace MarsFramework.Pages
                                 countUserSkillFound++;
                             }
                         }
-                        Assert.Multiple(() =>
-                        {
-                            Assert.GreaterOrEqual(countUserSkillFound, ResultList.Count);
-
-                        });
+                      
+                        Assert.GreaterOrEqual(countUserSkillFound, ResultList.Count);
                         Base.test.Log(LogStatus.Pass, "Result found based on the username");
                     }
                 }
@@ -382,6 +378,7 @@ namespace MarsFramework.Pages
         // Verify Result with Filter option Online , Offline and ShowAll
         public void VerifyResultwithFilter(int totalSkills, int refineSkills, string filter)
         {
+            Thread.Sleep(2000);
             var expectedURL = "http://localhost:5000/Home/Search?";
             var currentURL = GlobalDefinitions.driver.Url;
             int current = Int32.Parse(GetAllCategoryTotal());
@@ -393,8 +390,9 @@ namespace MarsFramework.Pages
                     Assert.GreaterOrEqual(ResultList.Count,0);
                     Assert.AreEqual(current, refineSkills);
                     Assert.Less(current, totalSkills);
-                    Base.test.Log(LogStatus.Pass, "Filter result shown successfully based on filter option  " + filter);
                 });
+                Base.test.Log(LogStatus.Pass, "Filter result shown successfully based on filter option  " + filter);
+
             }
             else if (filter == "ShowAll")
             {
@@ -403,9 +401,10 @@ namespace MarsFramework.Pages
                     Assert.AreEqual(current, refineSkills);
                     Assert.LessOrEqual(current, totalSkills);
                     Assert.GreaterOrEqual(ResultList.Count, 0);
-                    Base.test.Log(LogStatus.Pass, "Filter result shown successfully based on filter option  " + filter);
-
+                   
                 });
+                Base.test.Log(LogStatus.Pass, "Filter result shown successfully based on filter option  " + filter);
+
             }
             else
             {

@@ -26,6 +26,10 @@ namespace MarsFramework.Pages
 
         #region Intializing web elements
 
+            //Navigating to Profile detail page
+            [FindsBy(How = How.LinkText, Using = "Profile")]
+            private IWebElement ProfileTab { get; set; }
+
             //Navigating to Language tab
             [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Languages')]")]
             private IWebElement LanguageTab { get; set; }
@@ -67,6 +71,14 @@ namespace MarsFramework.Pages
             int NumberOfLanguagesToAdd => Int32.Parse(GlobalDefinitions.ExcelLib.ReadData(2, "NumberOfLanguageToAdd"));
         #endregion
 
+
+        public void NavigateToProfileTab()
+        {
+            // Clicking on the profile tab
+            GenericWait.ElementIsClickable(GlobalDefinitions.driver, "LinkText", "Profile", 5);
+            ProfileTab.Click();
+        }
+
         public void NavigateToLanguageTab()
         {
             GenericWait.ElementIsClickable(GlobalDefinitions.driver, "XPath", "//a[contains(text(),'Skills')]", 2);
@@ -89,7 +101,7 @@ namespace MarsFramework.Pages
                     addNewLanguageButton.Click();
 
                     //Entering the language data into the language textbox
-                    //Thread.Sleep(2000);
+                    Thread.Sleep(3000);
                     GenericWait.ElementExists(GlobalDefinitions.driver, "XPath", "//input[@placeholder='Add Language']", 6);
                     addNewLanguageText.SendKeys(languageData);
 
@@ -181,6 +193,7 @@ namespace MarsFramework.Pages
                             updateButtonLanguage.Click();
                             string img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Update Language");
                             break;
+                            
                         }
                     }
                
@@ -260,6 +273,7 @@ namespace MarsFramework.Pages
 
                     catch (Exception e)
                     {
+                      Assert.Fail("failed to delete language", e.Message);
                       Base.test.Log(LogStatus.Fail, "The language is not deleted from the list", e.Message);
                     }
 
